@@ -1,4 +1,5 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
+import { TaskStyle, FormStyle, ListStyle } from "./style/style";
 
 
 type FormElement = React.FormEvent<HTMLFormElement>;
@@ -8,7 +9,7 @@ interface ITask {
   done: boolean;
 }
 
- 
+
 function App(): JSX.Element {
 
   const [newTask, setnewTask] = useState<string>("");
@@ -25,23 +26,42 @@ function App(): JSX.Element {
   }
 
   const addTask = (nameTask: string) => {
-    const newTasks: ITask[] = [...tasks, {nameTask, done: false}]
+    const newTasks: ITask[] = [...tasks, { nameTask, done: false }]
     setTasks(newTasks)
+  }
+
+  const changeTask = (index: number) =>{
+    const newTasks: ITask[] = [...tasks];
+    newTasks[index].done =!newTasks[index].done; 
+    setTasks(newTasks);
   }
 
 
   return (
-    <Fragment>
-      <form onSubmit={handleSubmit}>
-        <input type="text" onChange={e => setnewTask(e.target.value)} value={newTask} />
+    <TaskStyle>
+      <FormStyle onSubmit={handleSubmit}>
+        <input
+          autoFocus
+          type="text"
+          onChange={e => setnewTask(e.target.value)}
+          value={newTask} />
         <button type="submit">enviar</button>
-      </form>
-      {
-        tasks.map((t: ITask) => {
-        return <h1>{t.nameTask}</h1>
-        })
-      }
-    </Fragment>
+      </FormStyle>
+      <div>
+        {
+          tasks.map((t: ITask, index: number) => {
+            return <ListStyle>
+              <h2 key={index} className={t.done ? "true":"false"}>{t.nameTask}</h2>
+              <div>
+                <button onClick={() => changeTask(index)}>
+                  {t.done ? "✓" : "✗"}
+                </button>
+              </div>
+            </ListStyle>
+          })
+        }
+      </div>
+    </TaskStyle>
   );
 }
 
