@@ -41,4 +41,9 @@ export const ListStyle = styled.div`
             text-decoration: line-through;
         }
     }
+    button{
+        &.trash{
+            background-color: red;
+        }
+    }
 `

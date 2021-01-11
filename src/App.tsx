@@ -25,14 +25,20 @@ function App(): JSX.Element {
     setnewTask("")
   }
 
-  const addTask = (nameTask: string) => {
+  const addTask = (nameTask: string): void => {
     const newTasks: ITask[] = [...tasks, { nameTask, done: false }]
     setTasks(newTasks)
   }
 
-  const changeTask = (index: number) =>{
+  const changeTask = (index: number): void =>{
     const newTasks: ITask[] = [...tasks];
     newTasks[index].done =!newTasks[index].done; 
+    setTasks(newTasks);
+  }
+
+  const deleteTask = (index: number): void =>{
+    const newTasks: ITask[] = [...tasks];
+    newTasks.splice(index,1);
     setTasks(newTasks);
   }
 
@@ -55,6 +61,9 @@ function App(): JSX.Element {
               <div>
                 <button onClick={() => changeTask(index)}>
                   {t.done ? "✓" : "✗"}
+                </button>
+                <button className="trash" onClick={() => deleteTask(index)}>
+                  🗑
                 </button>
               </div>
             </ListStyle>
